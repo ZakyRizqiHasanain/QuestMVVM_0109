@@ -14,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.questmvvm.model.DataJK.JenisK
 import com.example.questmvvm.view.FormSiswa
+import com.example.questmvvm.view.TampilSiswa
 import com.example.questmvvm.viewmodel.SiswaViewModel
 
 enum class Navigasi {
@@ -34,8 +35,7 @@ fun SiswaApp(
         NavHost(
             navController = navController,
             startDestination = Navigasi.Formulir.name,
-            modifier = Modifier.padding(isiRuang))
-        {
+            modifier = Modifier.padding(isiRuang)){
             composable(route = Navigasi.Formulir.name){
                 //edit 3 : tambahkan variable konteks
                 val konteks = LocalContext.current
@@ -46,6 +46,13 @@ fun SiswaApp(
                         viewModel.setSiswa(it)
                         navController.navigate(Navigasi.Detail.name)
                     }
+                )
+            }
+            composable(route = Navigasi.Detail.name){
+                TampilSiswa(
+                    //edit 5 : parameter statusUiSiswa
+                    statusUiSiswa = uiState.value,
+                    onBackButtonClicked = { cancelAndBackToFormulir(navController) }
                 )
             }
         }
